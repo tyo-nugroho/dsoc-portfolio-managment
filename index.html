@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERURI DSOC - Enterprise Portal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"IBM Plex Mono"', 'monospace'] },
+                    colors: {
+                        peruri: { base: '#0057B8', dark: '#003366', light: '#E6F0FA', gold: '#FFB81C' },
+                        success: '#10b981', warning: '#f59e0b', danger: '#ef4444'
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="text-slate-700 flex h-screen overflow-hidden text-sm bg-slate-50">
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-6 right-6 z-[9999] flex flex-col gap-2.5 pointer-events-none"></div>
+
+    <!-- Login Overlay -->
+    <div id="login-overlay" class="fixed inset-0 bg-peruri-dark z-[1000] flex items-center justify-center transition-opacity duration-500">
+        <div id="login-card" class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md mx-4 border border-slate-700">
+            <div class="flex items-center justify-center mb-8">
+                <div class="w-12 h-12 rounded-full bg-peruri-base flex items-center justify-center text-white font-bold text-xl mr-3 shadow-lg shadow-peruri-base/30">P</div>
+                <div><h1 class="font-bold text-2xl text-peruri-dark">PERURI</h1><p class="text-[10px] text-slate-500 tracking-widest uppercase">DSOC Portal</p></div>
+            </div>
+
+            <div id="login-error" class="hidden mb-4 bg-red-50 border border-red-200 text-danger text-xs font-bold rounded-lg p-3 flex items-center gap-2">
+                <i class="fa-solid fa-circle-exclamation"></i><span id="login-error-text">Login gagal.</span>
+            </div>
+
+            <form id="loginForm" onsubmit="doLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Username / ID</label>
+                    <input type="text" id="username" onfocus="clearLoginError()" class="w-full border border-slate-300 rounded-lg p-3 text-sm focus:border-peruri-base outline-none bg-white transition-all" placeholder="Masukkan User ID (contoh: admin)..." required>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Password</label>
+                    <div class="relative">
+                        <input type="password" id="password" onfocus="clearLoginError()" value="password123" class="w-full border border-slate-300 rounded-lg p-3 pr-10 text-sm focus:border-peruri-base outline-none bg-white transition-all" placeholder="Masukkan Password..." required>
+                        <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-peruri-base focus:outline-none">
+                            <i id="eye-icon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-peruri-base text-white font-bold py-3 rounded-lg hover:bg-peruri-dark transition-colors shadow-md mt-4">Akses Sistem</button>
+            </form>
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100 text-xs text-peruri-base">
+                <p class="font-bold mb-1"><i class="fa-solid fa-circle-info mr-1"></i> Credential Testing:</p>
+                <ul class="list-disc pl-4 space-y-1">
+                    <li><b>admin</b> (Role: Super Admin)</li>
+                    <li><b>manager</b> (Role: PMO / Setup)</li>
+                    <li><b>viewer</b> (Role: Employee / PIC)</li>
+                </ul>
+                <p class="mt-2 text-[10px] text-slate-500 italic">*Password untuk semua role: <b>password123</b></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic Modal (Add/Edit forms) -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/50 z-[998] hidden items-center justify-center p-4">
+        <div id="modal-box" class="bg-white rounded-2xl shadow-2xl w-full max-w-lg transition-all duration-200 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center px-6 py-4 border-b border-slate-100 sticky top-0 bg-white rounded-t-2xl">
+                <h3 id="modal-title" class="font-bold text-slate-800 text-[15px]">Modal Title</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="modal-body" class="p-6"></div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal (logout / delete confirmations) -->
+    <div id="confirm-overlay" class="fixed inset-0 bg-black/50 z-[999] hidden items-center justify-center p-4">
+        <div id="confirm-box" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm transition-all duration-200">
+            <div class="p-6 text-center">
+                <div class="w-14 h-14 rounded-full bg-amber-50 text-warning flex items-center justify-center mx-auto mb-4"><i class="fa-solid fa-triangle-exclamation text-2xl"></i></div>
+                <h3 id="confirm-title" class="font-bold text-slate-800 text-[15px] mb-2">Konfirmasi Tindakan</h3>
+                <p id="confirm-message" class="text-xs text-slate-500 leading-relaxed">Apakah Anda yakin?</p>
+            </div>
+            <div class="flex justify-center gap-3 px-6 pb-6">
+                <button onclick="closeConfirm()" class="px-4 py-2 rounded-lg text-xs font-bold text-slate-600 border border-slate-300 hover:bg-slate-50 flex-1">Batal</button>
+                <button id="confirm-ok-btn" onclick="confirmYes()" class="px-4 py-2 rounded-lg text-xs font-bold text-white bg-danger hover:bg-red-600 shadow-sm flex-1">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <aside id="main-sidebar" class="w-[260px] bg-peruri-dark text-slate-300 flex flex-col h-full z-20 shadow-xl shrink-0 transition-all">
+        <div class="h-16 flex items-center px-6 border-b border-slate-700 bg-peruri-dark shrink-0">
+            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-peruri-base font-bold mr-3">P</div>
+            <div><h2 class="font-bold text-white leading-tight">DSOC</h2><p class="text-[9px] uppercase tracking-widest text-slate-400">Operation Center</p></div>
+        </div>
+
+        <div class="px-3 pt-3 shrink-0">
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[11px]"></i>
+                <input type="text" id="sidebarSearch" placeholder="Cari menu..." class="w-full bg-slate-800/60 border border-slate-700 rounded-lg pl-8 pr-3 py-2 text-[11px] text-slate-200 placeholder-slate-500 outline-none focus:border-peruri-base transition-colors">
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-4 px-3 space-y-1 custom-scrollbar">
+            <!-- MENU 1: Executive Dashboard -->
+            <button onclick="navTo('dashboard')" id="nav-dashboard" data-page="dashboard" class="nav-link w-full flex items-center gap-3 px-4 py-2.5 rounded-lg font-medium transition-colors hover:bg-slate-800 hover:text-white menu-btn">
+                <i class="fa-solid fa-chart-pie w-5 text-center"></i> Executive Dashboard
+            </button>
+
+            <!-- MENU 2: DSOC Operations Engine -->
+            <div class="group-menu" id="menu-engine">
+                <button onclick="toggleDropdown('drop-engine', this)" class="w-full flex items-center justify-between px-4 py-2.5 rounded-lg font-medium transition-colors hover:bg-slate-800 hover:text-white mt-2">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-server w-5 text-center"></i> Operations Engine</div>
+                    <i class="fa-solid fa-chevron-down text-[10px] chev"></i>
+                </button>
+                <div id="drop-engine" class="hidden flex-col gap-1 pl-11 pr-2 py-1">
+                    <button onclick="navTo('engine-perf')" data-page="engine-perf" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Performance & Availability</button>
+                    <button onclick="navTo('engine-sla')" data-page="engine-sla" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">SLA Compliance</button>
+                    <button onclick="navTo('engine-inc')" data-page="engine-inc" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Incident & MTTR Control</button>
+                    <button onclick="navTo('engine-ticket')" data-page="engine-ticket" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Ticket & Workload</button>
+                    <button onclick="navTo('engine-change')" data-page="engine-change" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Change & Release</button>
+                    <button onclick="navTo('engine-cx')" data-page="engine-cx" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Customer Experience (CX)</button>
+                </div>
+            </div>
+
+            <!-- MENU 3: Portfolio & Human Capital -->
+            <div class="group-menu" id="menu-hc">
+                <button onclick="toggleDropdown('drop-hc', this)" class="w-full flex items-center justify-between px-4 py-2.5 rounded-lg font-medium transition-colors hover:bg-slate-800 hover:text-white mt-2">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-briefcase w-5 text-center"></i> Portfolio & HC</div>
+                    <i class="fa-solid fa-chevron-down text-[10px] chev"></i>
+                </button>
+                <div id="drop-hc" class="hidden flex-col gap-1 pl-11 pr-2 py-1">
+                    <button onclick="navTo('hc-prod')" data-page="hc-prod" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Productivity & KPI</button>
+                    <button onclick="navTo('hc-review')" data-page="hc-review" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Direct Report Rating</button>
+                    <button onclick="navTo('hc-okr')" data-page="hc-okr" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Strategic OKR & RACI</button>
+                </div>
+            </div>
+
+            <!-- MENU 4: Administration & Security -->
+            <div class="group-menu" id="menu-admin">
+                <button onclick="toggleDropdown('drop-admin', this)" class="w-full flex items-center justify-between px-4 py-2.5 rounded-lg font-medium transition-colors hover:bg-slate-800 hover:text-white mt-2">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-shield-halved w-5 text-center"></i> Admin & Security</div>
+                    <i class="fa-solid fa-chevron-down text-[10px] chev"></i>
+                </button>
+                <div id="drop-admin" class="hidden flex-col gap-1 pl-11 pr-2 py-1">
+                    <button onclick="navTo('admin-role')" data-page="admin-role" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Role Management</button>
+                    <button onclick="navTo('admin-api')" data-page="admin-api" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">API & Integration Sync</button>
+                    <button onclick="navTo('admin-log')" data-page="admin-log" class="nav-link w-full text-left py-2 text-xs text-slate-400 hover:text-white menu-btn transition-colors">Enterprise Audit Logs</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 border-t border-slate-700 bg-slate-900/50 flex items-center gap-3 cursor-pointer hover:bg-slate-800 transition shrink-0" onclick="askLogout()">
+            <div class="w-8 h-8 rounded-full bg-peruri-base flex items-center justify-center text-white font-bold" id="user-initial">S</div>
+            <div class="flex-1"><h4 class="text-xs font-bold text-white" id="user-name">Super Admin</h4><p class="text-[9px] text-slate-400 uppercase tracking-widest" id="user-role">Full Access</p></div>
+            <i class="fa-solid fa-power-off text-slate-500 hover:text-danger"></i>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col h-full relative">
+        <header class="h-16 bg-white border-b border-slate-200 px-6 flex justify-between items-center shrink-0 shadow-sm z-10">
+            <div>
+                <h2 id="header-title" class="font-bold text-lg text-slate-800">Dashboard</h2>
+                <p id="header-subtitle" class="text-[10px] text-slate-500 uppercase tracking-widest">PERURI DSOC</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="bg-emerald-50 border border-emerald-200 text-success text-[10px] font-bold px-3 py-1.5 rounded-full flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-success animate-pulse"></span> Systems Nominal</span>
+                <span class="text-xs font-mono text-slate-600 bg-slate-100 px-3 py-1.5 rounded border border-slate-200" id="clock">12:00:00</span>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Router -->
+        <div class="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8 custom-scrollbar pb-24" id="app-content">
+            <!-- Content Injected via Fetch -->
+        </div>
+    </main>
+
+    <!-- Scripts Must Be Included -->
+    <script src="js/db.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "dsoc-peruri",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "serve .",
+    "dev": "lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "serve": "^14.2.1"
+  }
+}

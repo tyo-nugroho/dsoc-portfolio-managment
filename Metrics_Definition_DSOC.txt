@@ -1,0 +1,26 @@
+DOKUMEN DEFINISI METRIK DSOC & PORTFOLIO MANAGEMENT
+
+1. Executive Scorecard (Main Dashboard)
+- SLA Compliance Rate (%): Kepatuhan tingkat layanan infrastruktur dan operasional (Target: >=95%). 
+- Service Uptime (%): Ketersediaan sistem infrastruktur IT dari cloud hingga core. Target minimal 99.90% bebas downtime.
+- Customer Satisfaction / CSAT (0-5.0): Kepuasan pelanggan hasil survei.
+
+2. DSOC Core Engine
+- Incident Volume by Severity: Akumulasi jumlah insiden berdasarkan level krisis (P1 Critical, P2 High, P3 Medium, P4 Low).
+- Server Patch Compliance (%): Kepatuhan sistem dalam menutup celah Vulnerabilitas / CVE.
+- Change Deployment Success (%): Rasio persentase perubahan sistem (Deployment) yang sukses dilakukan.
+
+3. Productivity & Capacity Configuration
+- Monthly Count (Angka): Estimasi jumlah kemunculan sebuah task (tugas spesifik).
+- Mins / Task (Menit): Estimasi rata-rata durasi penyelesaian task.
+- Avg Daily Hours / Load Balance (Jam): ((Total Mins / 60) / 22 Hari Kerja Aktif). Jika > 8 Jam maka indikator sistem akan merah.
+
+4. KPI & Grading Config
+- Final KPI Grade: Konversi skor kumulatif (0-100) dari pencapaian numerik ke predikat huruf (A+, A, B, C, D).
+
+5. 360 Review Matrix
+- Qualitative Score: Akumulasi nilai evaluasi dimensi non-teknis.
+
+6. Strategic OKR Mapping (RACI)
+- Objective Weight (%): Proporsi suatu OKR strategis terhadap indeks kesuksesan organisasi.
+- RACI Allocation (Man Days): Distribusi perlakuan tugas proyek terhadap Karyawan spesifik (Accountable, Responsible, Consulted, Informed).
