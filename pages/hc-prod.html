@@ -1,0 +1,30 @@
+<div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 reveal">
+    <div class="flex justify-between items-center mb-6">
+        <div><h3 class="font-bold text-slate-800 text-[15px]">Productivity & Capacity Configuration</h3><p class="text-[11px] text-slate-500 mt-1">Standarisasi beban jam kerja per tugas.</p></div>
+        <button onclick="openAddProdRule()" class="crud-action add-btn bg-peruri-base text-white px-4 py-2 rounded-lg text-xs font-bold transition-colors shadow-sm hover:bg-peruri-dark"><i class="fa-solid fa-plus mr-1"></i> Add Rule</button>
+    </div>
+    <div class="overflow-x-auto border border-slate-200 rounded-lg">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-slate-50 border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                <tr><th class="p-3 w-40">Employee</th><th class="p-3">Task Category</th><th class="p-3 text-center">Month Count</th><th class="p-3 text-center">Mins/Task</th><th class="p-3 text-center">Total (M)</th><th class="p-3 text-center">Daily Hrs</th><th class="p-3 w-16 text-center">Act</th></tr>
+            </thead>
+            <tbody class="text-[12px] divide-y divide-slate-100" id="prod-table-body"></tbody>
+        </table>
+    </div>
+    <div class="mt-4 text-[10px] text-slate-500 bg-slate-50 border border-slate-200 p-3 rounded"><b>Rumus:</b> ((Monthly Count × Mins/Task) / 60) / 22 Hari Kerja. Indikator merah jika > 8 jam/hari.</div>
+</div>
+
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden reveal">
+    <div class="p-5 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
+        <h3 class="font-bold text-slate-800 text-[14px]">KPI Grading Final</h3>
+        <button onclick="recalcGrades(this)" class="sec-edit crud-action bg-white border border-slate-300 text-slate-700 px-4 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-100 shadow-sm">Recalculate Grades</button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-white border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                <tr><th class="px-5 py-3">Employee</th><th class="px-5 py-3 text-center">Tasks Done</th><th class="px-5 py-3 text-center">Actual Hrs</th><th class="px-5 py-3 text-center">Final Score</th><th class="px-5 py-3 text-center">Grade Predicate</th></tr>
+            </thead>
+            <tbody class="text-xs divide-y divide-slate-100" id="grade-table-body"></tbody>
+        </table>
+    </div>
+</div>

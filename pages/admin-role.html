@@ -1,0 +1,33 @@
+<div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 reveal">
+    <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+        <div>
+            <h3 class="font-bold text-slate-800 text-[15px]">Role & Access Management</h3>
+            <p class="text-[11px] text-slate-500 mt-1">Kelola data pengguna sistem dan tingkat akses RBAC (Role-Based Access Control).</p>
+        </div>
+        <button onclick="openAddUser()" class="crud-action add-btn bg-peruri-base text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-peruri-dark transition-colors shadow-sm"><i class="fa-solid fa-user-plus mr-2"></i>Tambah User</button>
+    </div>
+
+    <div class="overflow-x-auto border border-slate-200 rounded-lg">
+        <table class="w-full text-left">
+            <thead class="bg-slate-50 border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                <tr><th class="p-3">User</th><th class="p-3">Role</th><th class="p-3">Departemen</th><th class="p-3 text-center">Status</th><th class="p-3 text-center w-24">Action</th></tr>
+            </thead>
+            <tbody class="text-[12px] divide-y divide-slate-100" id="user-table-body"></tbody>
+        </table>
+    </div>
+
+    <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="border border-slate-200 rounded-xl p-4 flex items-center gap-3 bg-slate-50">
+            <div class="w-9 h-9 rounded-lg bg-blue-50 text-peruri-base flex items-center justify-center"><i class="fa-solid fa-user-shield"></i></div>
+            <div><h4 class="font-bold text-slate-800 text-[12px]">Super Admin</h4><p class="text-[9px] font-bold text-slate-500 uppercase">Full Access ke seluruh modul</p></div>
+        </div>
+        <div class="border border-slate-200 rounded-xl p-4 flex items-center gap-3 bg-slate-50">
+            <div class="w-9 h-9 rounded-lg bg-amber-50 text-warning flex items-center justify-center"><i class="fa-solid fa-user-gear"></i></div>
+            <div><h4 class="font-bold text-slate-800 text-[12px]">PMO / Setup</h4><p class="text-[9px] font-bold text-slate-500 uppercase">Config Portfolio & HC Only</p></div>
+        </div>
+        <div class="border border-slate-200 rounded-xl p-4 flex items-center gap-3 bg-slate-50">
+            <div class="w-9 h-9 rounded-lg bg-slate-100 border border-slate-200 text-slate-500 flex items-center justify-center"><i class="fa-solid fa-eye"></i></div>
+            <div><h4 class="font-bold text-slate-800 text-[12px]">Employee / PIC</h4><p class="text-[9px] font-bold text-slate-500 uppercase">Viewer (Read Only)</p></div>
+        </div>
+    </div>
+</div>

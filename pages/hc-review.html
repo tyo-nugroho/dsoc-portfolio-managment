@@ -1,0 +1,28 @@
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6 reveal">
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-5">
+            <h3 class="font-bold text-slate-800 text-[14px]">Evaluation Dimensions & Weights</h3>
+            <span class="text-[10px] font-bold px-2 py-1 rounded border bg-slate-50 border-slate-200">Total: <span id="review-total-weight" class="text-success">100%</span></span>
+        </div>
+        <div id="review-dimensions" class="space-y-6"></div>
+        <div class="pt-4 mt-2 border-t border-dashed border-slate-200 text-right">
+            <button onclick="saveReviewWeights(this)" class="action-btn crud-action sec-edit bg-peruri-base text-white font-bold text-xs px-4 py-2 rounded-lg hover:bg-peruri-dark transition-colors"><i class="fa-solid fa-floppy-disk mr-1"></i> Save Weights</button>
+        </div>
+        <div class="mt-4 text-[10px] text-slate-500 bg-slate-50 border border-slate-200 p-3 rounded">Total bobot keempat dimensi wajib berjumlah <b>100%</b> sesuai kebijakan matriks penilaian 360 derajat perusahaan.</div>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-5">
+            <h3 class="font-bold text-slate-800 text-[14px]">Participant Setup Matrix</h3>
+            <button onclick="openAddParticipant()" class="crud-action add-btn bg-peruri-base text-white px-3 py-1.5 rounded-lg text-[11px] font-bold hover:bg-peruri-dark shadow-sm"><i class="fa-solid fa-plus mr-1"></i>Add Participant</button>
+        </div>
+        <div class="overflow-x-auto border border-slate-200 rounded-lg">
+            <table class="w-full text-left">
+                <thead class="bg-slate-50 border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                    <tr><th class="p-3">Employee</th><th class="p-3">Role</th><th class="p-3">Reviewer</th><th class="p-3 text-center">Status</th><th class="p-3 text-center">Action</th></tr>
+                </thead>
+                <tbody class="text-[12px] divide-y divide-slate-100 bg-white" id="review-participant-table"></tbody>
+            </table>
+        </div>
+        <p class="text-[10px] text-slate-500 mt-3">Anggota tim, supervisor, dan klien internal memberikan umpan balik berbasis data historis penanganan tugas yang terangkum dalam portofolio, menghilangkan bias dalam proses peninjauan kinerja.</p>
+    </div>
+</div>

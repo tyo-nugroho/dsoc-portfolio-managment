@@ -1,0 +1,75 @@
+<div class="reveal">
+    <!-- Tabs -->
+    <div id="tkt-tabs" class="flex gap-2 mb-6 bg-slate-100 p-1 rounded-lg w-max">
+        <button onclick="switchTab('tkt-tabs','panel-volume', this)" class="tab-btn px-4 py-2 rounded-md text-xs font-bold bg-peruri-base text-white shadow-sm transition-colors">Volume Ticket Performance</button>
+        <button onclick="switchTab('tkt-tabs','panel-backlog', this)" class="tab-btn px-4 py-2 rounded-md text-xs font-bold text-slate-500 transition-colors">Ticket Backlog & Workload Distribution</button>
+    </div>
+
+    <!-- ============ PANEL: VOLUME TICKET PERFORMANCE ============ -->
+    <div id="panel-volume" class="tab-panel">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6" id="tkt-status-grid"></div>
+        <div class="text-center mb-6">
+            <span class="text-[10px] text-slate-500 uppercase tracking-widest">Total Ticket (Semua Status): </span>
+            <span class="text-xl font-extrabold text-slate-800" id="tkt-total">0</span>
+            <span class="text-[10px] text-success font-bold ml-1" id="tkt-total-delta"></span>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm mb-6">
+            <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Volume Ticket</span>
+                <div class="flex gap-1.5">
+                    <button onclick="switchTicketView('daily')" data-view="daily" class="tkt-view-btn text-[10px] font-bold px-3 py-1.5 rounded-lg bg-peruri-base text-white">Harian</button>
+                    <button onclick="switchTicketView('weekly')" data-view="weekly" class="tkt-view-btn text-[10px] font-bold px-3 py-1.5 rounded-lg bg-white text-slate-500 border border-slate-200">Mingguan</button>
+                    <button onclick="switchTicketView('monthly')" data-view="monthly" class="tkt-view-btn text-[10px] font-bold px-3 py-1.5 rounded-lg bg-white text-slate-500 border border-slate-200">Bulanan</button>
+                </div>
+            </div>
+            <div class="h-[260px] w-full"><canvas id="ticketChart"></canvas></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Ticket Analytics Berdasarkan Kategori</span>
+            <div id="tkt-categories" class="flex flex-col md:flex-row gap-4"></div>
+        </div>
+    </div>
+
+    <!-- ============ PANEL: TICKET BACKLOG & WORKLOAD DISTRIBUTION ============ -->
+    <div id="panel-backlog" class="tab-panel hidden">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white border border-red-200 rounded-xl p-4 shadow-sm text-center">
+                <div class="text-[9.5px] font-bold text-danger uppercase tracking-wide mb-1">P1 (Kritis)</div>
+                <div class="text-2xl font-extrabold text-slate-800" id="backlog-p1">0</div>
+                <div class="text-[9px] text-slate-400">Total Tiket Aktif</div>
+            </div>
+            <div class="bg-white border border-amber-200 rounded-xl p-4 shadow-sm text-center">
+                <div class="text-[9.5px] font-bold text-warning uppercase tracking-wide mb-1">P2 (Tinggi)</div>
+                <div class="text-2xl font-extrabold text-slate-800" id="backlog-p2">0</div>
+                <div class="text-[9px] text-slate-400">Total Tiket Aktif</div>
+            </div>
+            <div class="bg-white border border-blue-200 rounded-xl p-4 shadow-sm text-center">
+                <div class="text-[9.5px] font-bold text-peruri-base uppercase tracking-wide mb-1">P3 (Menengah)</div>
+                <div class="text-2xl font-extrabold text-slate-800" id="backlog-p3">0</div>
+                <div class="text-[9px] text-slate-400">Total Tiket Aktif</div>
+            </div>
+            <div class="bg-white border border-emerald-200 rounded-xl p-4 shadow-sm text-center">
+                <div class="text-[9.5px] font-bold text-success uppercase tracking-wide mb-1">P4 (Rendah)</div>
+                <div class="text-2xl font-extrabold text-slate-800" id="backlog-p4">0</div>
+                <div class="text-[9px] text-slate-400">Total Tiket Aktif</div>
+            </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-200 bg-slate-50"><h3 class="font-bold text-slate-800 text-[13px]">Distribusi Beban Kerja per Tingkat Dukungan</h3></div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-100 border-b border-slate-300 text-[9.5px] font-bold text-slate-500 uppercase tracking-wide">
+                        <tr><th class="p-3">Tingkat Dukungan</th><th class="p-3 text-center">P1 (Kritis)</th><th class="p-3 text-center">P2 (Tinggi)</th><th class="p-3 text-center">P3 (Menengah)</th><th class="p-3 text-center">P4 (Rendah)</th><th class="p-3 text-center">Total</th></tr>
+                    </thead>
+                    <tbody id="backlog-tier-table" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-200 text-[10px] text-slate-500">
+                Tabel ini merepresentasikan persebaran tiket aktif yang harus diselesaikan untuk mengejar target SLA bulanan.
+            </div>
+        </div>
+    </div>
+</div>

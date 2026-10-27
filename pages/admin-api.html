@@ -1,0 +1,28 @@
+
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 max-w-3xl reveal">
+        <h3 class="font-bold text-slate-800 text-[14px] border-b border-slate-100 pb-3 mb-5">API & Integration Sync</h3>
+        <div class="space-y-5">
+            <div>
+                <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Bearer Token (Secret)</label>
+                <div class="flex items-center gap-2">
+                    <input type="password" value="dsoc_prod_secret_token_12345" class="filter-input font-mono text-[11px] w-full border border-slate-300 rounded-lg px-3 py-2 bg-slate-50 text-slate-500 outline-none" readonly>
+                    <button onclick="toggleApi(this)" class="action-btn px-3 py-2 border border-slate-300 rounded-lg text-slate-400 hover:bg-slate-50"><i class="fa-solid fa-eye"></i></button>
+                </div>
+            </div>
+            <div class="pt-4 border-t border-dashed border-slate-200">
+                <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">Jira Inbound Sync (PULL)</label>
+                <div class="flex gap-2">
+                    <input type="text" value="https://jira.peruri.co.id/api/v2/tasks" class="filter-input text-[11px] w-full border border-slate-300 rounded-lg px-3 py-2 bg-white outline-none" readonly>
+                    <button onclick="actApi(this, 'PULL')" class="sec-edit bg-peruri-dark text-white px-4 py-2 rounded-lg text-[11px] font-bold hover:bg-black transition-colors min-w-[80px]">PULL</button>
+                </div>
+            </div>
+            <div class="pt-2">
+                <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-1">HRIS Outbound (PUSH)</label>
+                <div class="flex gap-2">
+                    <input type="text" value="https://hris.peruri.co.id/api/v1/scores" class="filter-input text-[11px] w-full border border-slate-300 rounded-lg px-3 py-2 bg-white outline-none" readonly>
+                    <button onclick="actApi(this, 'PUSH')" class="sec-edit bg-peruri-dark text-white px-4 py-2 rounded-lg text-[11px] font-bold hover:bg-black transition-colors min-w-[80px]">PUSH</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    

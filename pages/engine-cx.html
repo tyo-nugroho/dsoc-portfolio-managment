@@ -1,0 +1,104 @@
+<div class="reveal">
+    <div class="flex justify-between items-baseline mb-3">
+        <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2"><span class="w-1 h-3.5 bg-peruri-gold rounded-sm block"></span> Customer Satisfaction (CSAT)</h2>
+        <span class="text-[10px] text-slate-500 uppercase tracking-widest">Tingkat kepuasan pelanggan terhadap produk & agen layanan</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Tingkat Kepuasan atas Produk/Layanan</span>
+            <div class="flex items-center gap-5">
+                <div class="relative w-[100px] h-[100px] donut-wrap shrink-0">
+                    <svg viewBox="0 0 42 42" class="w-full h-full -rotate-90">
+                        <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#f1f5f9" stroke-width="5"></circle>
+                        <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#0057B8" stroke-dasharray="0 100" class="donut-val transition-all duration-1000" id="cx-prod-ring"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center text-[13px] font-bold text-slate-800" id="cx-prod-score">0%</div>
+                </div>
+                <div>
+                    <div class="text-lg font-extrabold text-slate-800" id="cx-prod-out5">0 / 5</div>
+                    <span class="bg-blue-50 text-peruri-base text-[10px] font-bold px-2 py-0.5 rounded border border-blue-200" id="cx-prod-label">-</span>
+                    <p class="text-[10px] text-success font-bold mt-1.5" id="cx-prod-delta">-</p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Tingkat Kepuasan terhadap Agen Layanan</span>
+            <div class="flex items-center gap-5">
+                <div class="relative w-[100px] h-[100px] donut-wrap shrink-0">
+                    <svg viewBox="0 0 42 42" class="w-full h-full -rotate-90">
+                        <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#f1f5f9" stroke-width="5"></circle>
+                        <circle cx="21" cy="21" r="15.9" fill="transparent" stroke="#10b981" stroke-dasharray="0 100" class="donut-val transition-all duration-1000" id="cx-agent-ring"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center text-[13px] font-bold text-slate-800" id="cx-agent-score">0%</div>
+                </div>
+                <div>
+                    <div class="text-lg font-extrabold text-slate-800" id="cx-agent-out5">0 / 5</div>
+                    <span class="bg-emerald-50 text-success text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-200" id="cx-agent-label">-</span>
+                    <p class="text-[10px] text-success font-bold mt-1.5" id="cx-agent-delta">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <span class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1 block">Feedback Positif - Produk</span>
+            <div class="text-xl font-extrabold text-success" id="cx-prod-pos">0%</div>
+            <div class="text-[10px] text-slate-400" id="cx-prod-pos-n">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <span class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1 block">Feedback Netral - Produk</span>
+            <div class="text-xl font-extrabold text-warning" id="cx-prod-neu">0%</div>
+            <div class="text-[10px] text-slate-400" id="cx-prod-neu-n">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <span class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1 block">Feedback Negatif - Produk</span>
+            <div class="text-xl font-extrabold text-danger" id="cx-prod-neg">0%</div>
+            <div class="text-[10px] text-slate-400" id="cx-prod-neg-n">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <span class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1 block">Feedback Positif - Agen</span>
+            <div class="text-xl font-extrabold text-success" id="cx-agent-pos">0%</div>
+            <div class="text-[10px] text-slate-400" id="cx-agent-pos-n">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <span class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1 block">Feedback Netral - Agen</span>
+            <div class="text-xl font-extrabold text-warning" id="cx-agent-neu">0%</div>
+            <div class="text-[10px] text-slate-400" id="cx-agent-neu-n">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <span class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1 block">Feedback Negatif - Agen</span>
+            <div class="text-xl font-extrabold text-danger" id="cx-agent-neg">0%</div>
+            <div class="text-[10px] text-slate-400" id="cx-agent-neg-n">-</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">First Contact Resolution (FCR)</span>
+            <div class="font-bold text-5xl text-slate-800 mb-2"><span class="cu" data-target="0" data-decimals="1" id="cx-fcr">0</span><span class="text-xl text-slate-500">%</span></div>
+            <p class="text-xs text-slate-500">Tiket diselesaikan oleh L1 tanpa eskalasi lanjutan.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Net Promoter Score (NPS)</span>
+            <div class="font-bold text-5xl text-slate-800 mb-2">+<span class="cu" data-target="0" data-decimals="0" id="cx-nps">0</span> <span class="text-xl text-peruri-base font-medium">(Excellent)</span></div>
+            <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mb-2 mt-4 block">Feedback Split (Produk)</span>
+            <div class="w-full bg-slate-100 rounded-full h-3 flex overflow-hidden">
+                <div class="bg-success h-3 transition-all duration-1000" style="width: 0%" id="cx-pos"></div>
+                <div class="bg-warning h-3 transition-all duration-1000" style="width: 0%" id="cx-neu"></div>
+                <div class="bg-danger h-3 transition-all duration-1000" style="width: 0%" id="cx-neg"></div>
+            </div>
+            <div class="flex justify-between mt-1 text-[9px] text-slate-500 font-bold uppercase">
+                <span>Positive (<span id="cx-lbl-pos">0%</span>)</span>
+                <span>Neutral (<span id="cx-lbl-neu">0%</span>)</span>
+                <span>Negative (<span id="cx-lbl-neg">0%</span>)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Saran & Rekomendasi dari Pelanggan</span>
+        <div id="cx-suggestions" class="hscroll"></div>
+    </div> -->
+</div>

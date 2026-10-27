@@ -1,0 +1,148 @@
+<div class="reveal">
+    <!-- ================= ACTIVE INCIDENT MATRIX (P1-P4) ================= -->
+    <div class="flex justify-between items-baseline mb-3">
+        <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2"><span class="w-1 h-3.5 bg-peruri-gold rounded-sm block"></span> Active Incident Matrix (P1 - P4)</h2>
+        <span class="text-[10px] text-slate-500 uppercase tracking-widest">Sistem pelacakan berdasarkan prioritas dampak bisnis</span>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1">Total Active Incident</div>
+            <div class="text-2xl font-extrabold text-slate-800" id="inc-total">0</div>
+        </div>
+        <div class="bg-slate-50 border border-red-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-danger uppercase tracking-wide mb-1">P1 - Kritis</div>
+            <div class="text-2xl font-extrabold text-slate-800" id="inc-p1">0</div>
+            <div class="text-[10px] text-slate-400" id="inc-p1-pct">0%</div>
+        </div>
+        <div class="bg-slate-50 border border-amber-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-warning uppercase tracking-wide mb-1">P2 - Tinggi</div>
+            <div class="text-2xl font-extrabold text-slate-800" id="inc-p2">0</div>
+            <div class="text-[10px] text-slate-400" id="inc-p2-pct">0%</div>
+        </div>
+        <div class="bg-slate-50 border border-yellow-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-yellow-600 uppercase tracking-wide mb-1">P3 - Sedang</div>
+            <div class="text-2xl font-extrabold text-slate-800" id="inc-p3">0</div>
+            <div class="text-[10px] text-slate-400" id="inc-p3-pct">0%</div>
+        </div>
+        <div class="bg-slate-50 border border-emerald-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-success uppercase tracking-wide mb-1">P4 - Rendah</div>
+            <div class="text-2xl font-extrabold text-slate-800" id="inc-p4">0</div>
+            <div class="text-[10px] text-slate-400" id="inc-p4-pct">0%</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Distribusi Berdasarkan Prioritas</span>
+            <div class="h-[200px]"><canvas id="incPriorityDonut"></canvas></div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Tren Active Incident (7 Hari Terakhir)</span>
+            <div class="h-[200px]"><canvas id="incTrendChart"></canvas></div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Status Penyelesaian Incident</span>
+            <div class="relative h-[160px]">
+                <canvas id="incResolutionDonut"></canvas>
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                    <span id="inc-resolution-pct" class="text-xl font-extrabold text-slate-800">0%</span>
+                    <span class="text-[9px] text-slate-400">Selesai</span>
+                </div>
+            </div>
+            <div class="text-center mt-2 text-[10px] text-slate-500">MTTR Rata-rata: <b class="text-slate-800" id="inc-avg-mttr">-</b></div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+        <div class="xl:col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-200 bg-slate-50 flex justify-between items-center"><h3 class="font-bold text-slate-800 text-[13px]">Daftar Active Incident</h3></div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 text-[9.5px] font-bold text-slate-500 uppercase tracking-wide border-b border-slate-200">
+                        <tr><th class="p-2">ID Incident</th><th class="p-2">Judul</th><th class="p-2 text-center">Prioritas</th><th class="p-2">Layanan</th><th class="p-2 text-center">Status</th><th class="p-2 text-center">MTTR Estimasi</th><th class="p-2">Owner</th></tr>
+                    </thead>
+                    <tbody id="inc-list-table" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="space-y-6">
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+                <h3 class="font-bold text-slate-800 text-[13px] mb-3">Top 5 Layanan Terdampak</h3>
+                <div id="inc-top-affected"></div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-5">
+                <h3 class="font-bold text-slate-800 text-[13px] mb-3">Alokasi Resource</h3>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div><div class="text-lg font-extrabold text-slate-800" id="inc-res-total-engineer">0</div><div class="text-[9px] text-slate-400 uppercase font-bold">Total Engineer</div></div>
+                    <div><div class="text-lg font-extrabold text-peruri-base" id="inc-res-handling">0</div><div class="text-[9px] text-slate-400 uppercase font-bold">Menangani</div></div>
+                    <div><div class="text-lg font-extrabold text-success" id="inc-res-utilization">0%</div><div class="text-[9px] text-slate-400 uppercase font-bold">Utilisasi</div></div>
+                </div>
+                <p class="text-[9.5px] text-slate-400 mt-3">Incident diprioritaskan berdasarkan dampak bisnis dan urgensi. P1 & P2 ditangani sesuai SLA prioritas tinggi.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MTTR MONITORING ================= -->
+    <div class="flex justify-between items-baseline mb-3 pt-4 border-t border-dashed border-slate-300">
+        <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2"><span class="w-1 h-3.5 bg-peruri-gold rounded-sm block"></span> Komponen Pantauan MTTR</h2>
+        <span class="text-[10px] text-slate-500 uppercase tracking-widest">MTTR yang lebih rendah lebih baik</span>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1">Average MTTR</div>
+            <div class="text-xl font-extrabold text-slate-800" id="mttr-avg">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1">Total Insiden Selesai</div>
+            <div class="text-xl font-extrabold text-slate-800" id="mttr-total-resolved">0</div>
+            <div class="text-[10px] text-success font-bold" id="mttr-total-resolved-delta">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1">MTTR Terbaik</div>
+            <div class="text-xl font-extrabold text-success" id="mttr-best">-</div>
+            <div class="text-[9.5px] text-slate-400" id="mttr-best-service">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1">MTTR Terburuk</div>
+            <div class="text-xl font-extrabold text-danger" id="mttr-worst">-</div>
+            <div class="text-[9.5px] text-slate-400" id="mttr-worst-service">-</div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+            <div class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wide mb-1">Target MTTR</div>
+            <div class="text-xl font-extrabold text-peruri-base" id="mttr-target">-</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+        <div class="xl:col-span-1 bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Tren MTTR (Rata-rata)</span>
+            <div class="h-[220px]"><canvas id="mttrTrendChart"></canvas></div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">MTTR Berdasarkan Layanan</span>
+            <div class="h-[220px]"><canvas id="mttrByServiceChart"></canvas></div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Distribusi MTTR</span>
+            <div class="h-[220px]"><canvas id="mttrDistDonut"></canvas></div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">MTTR Berdasarkan Prioritas</span>
+            <div id="mttr-by-priority"></div>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4 block">Perbandingan MTTR</span>
+            <div class="flex justify-between items-center mb-2">
+                <div><div class="text-[9.5px] text-slate-400 font-bold uppercase">Periode Ini</div><div class="text-lg font-extrabold text-peruri-base" id="mttr-cmp-current">-</div><div class="text-[9px] text-slate-400" id="mttr-cmp-current-period">-</div></div>
+                <div class="text-right"><div class="text-[9.5px] text-slate-400 font-bold uppercase">Periode Sebelumnya</div><div class="text-lg font-extrabold text-slate-400" id="mttr-cmp-previous">-</div><div class="text-[9px] text-slate-400" id="mttr-cmp-previous-period">-</div></div>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2 mb-3"><div id="mttr-cmp-bar" class="bg-peruri-base h-2 rounded-full transition-all duration-700" style="width:0%"></div></div>
+            <span id="mttr-cmp-change" class="inline-block bg-emerald-50 text-success text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-200"></span>
+        </div>
+    </div>
+</div>
